@@ -1,19 +1,17 @@
-import React, { memo } from "react";
+import React from "react";
 
-const Todo = memo(({ todoInfo, successTodo }) => {
-  
-  const handleSuccessTodo = () => {
-    console.log('child - handleSuccessTodo')
-    successTodo(todoInfo);
-  };
-
+export function Todo ({ todoInfo, buttons }) {
   return (
       <li>
         <div>{todoInfo}</div>
-        <div><button onClick={handleSuccessTodo}>완료</button></div>
+        {
+          buttons && <>{buttons}</>
+        }
       </li>
   );
-});
+};
 
-Todo.displayName = "Todo";
-export default Todo;
+// default
+// - ESM 에서 다루기가 힘들다.
+// Next.js Pages 디렉토리 안에 export default 많이 씀
+// 일반 컴포넌트는 Named export 를 많이 씀
