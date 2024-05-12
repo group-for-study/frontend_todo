@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 
-const Todo = memo(({ todoInfo, successTodo }) => {
+const Todo = memo(({ index, todoInfo, successTodo }) => {
   
   const handleSuccessTodo = () => {
     console.log('child - handleSuccessTodo')
-    successTodo(todoInfo);
+    successTodo(index);
   };
 
   return (
