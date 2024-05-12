@@ -1,26 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import Todo from "./Todo";
+import React, { useState, useRef } from "react";
+import { Todo } from "./Todo";
 
 function TodoList() {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
-  const [isTodo, setIsTodo] = useState(false);
 
   const todoInputRef = useRef(null);
-
-  useEffect(() => {
-    if(todoList.length !== 0) {
-      setIsTodo(true);
-    }
-    
-    return () => {
-      if(todoList.length > 0) {
-        setIsTodo(true);
-      } else {
-        setIsTodo(false);
-      }
-    }
-  }, [todoList])
 
   const successTodo = (successTodo) => {
     console.log(`successTodo : ${successTodo}`);
@@ -28,12 +13,7 @@ function TodoList() {
     setTodoList(updateTodoList)
   }
 
-  const handleTodoOnChange = (e) => {
-    console.log("handleTodoOnChange");
-    setTodo(e.target.value);
-  };
-
-  const handleOnTodoSubmit = (e) => {
+  const addTodo = (e) => {
     e.preventDefault();
     console.log("handleOnTodoSubmit");
     todoInputRef.current.focus();
@@ -46,27 +26,25 @@ function TodoList() {
   return (
     <>
       <h3>할일 목록</h3>
-      <form onSubmit={handleOnTodoSubmit}>
+      <form onSubmit={addTodo}>
         <input
           ref={todoInputRef}
           type="text"
           value={todo}
-          onChange={handleTodoOnChange}
+          onChange={(e) => setTodo(e.target.value)}
           maxLength={100}
         />
         <button>추가</button>
       </form>
-      {isTodo && (
+      {todoList.length > 0 && (
         <ul>
-          {todoList.map((todo, i) => {
-            return (
-                <Todo
-                  key={`할일_${i}`}
-                  todoInfo={todo}
-                  successTodo={successTodo}
-                />
-              ) 
-          })}
+          {todoList.map((todo, i) => (
+            <Todo
+              key={`할일_${i}`}
+              todoInfo={todo}
+              buttons={<div><button onClick={() => successTodo(todo)}>완료</button></div>}
+            />
+          ))}
         </ul>
       )}
     </>
